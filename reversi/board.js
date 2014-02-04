@@ -15,8 +15,32 @@
 
   Board.prototype.update_rows = function(pos, color) {
     // flip the pieces over in between pieces of color's color
-  }
 
+    // down
+    var i = 1;
+    var spot = this.rows[pos[0]+i][pos[1]]
+    while (spot.color != color) {
+      spot.flip();
+      i++;
+      spot = this.rows[pos[0]+i][pos[1]];
+    }
+  };
+
+  Board.prototype.display = function() {
+    var render = [];
+    this.rows.forEach( function(row) {
+      row.forEach( function (el) {
+        if (el === "_") {
+          process.stdout.write("_ ");
+        } else if (el.color === "white") {
+          process.stdout.write("O ");
+        } else {
+          process.stdout.write("X ");
+        }
+      })
+      console.log("");
+    })
+  };
 
   function newBoard() {
     var a = [];
@@ -30,7 +54,11 @@
     a[2][2] = new Piece("white");
     a[1][1] = new Piece("white");
     a[1][2] = new Piece("black");
-    a[2][1] = new Piece("black")
+    a[2][1] = new Piece("black");
+
+    // testing:
+    a[2][1] = new Piece("white");
+    a[3][1] = new Piece("black");
 
     return a;
   };
@@ -49,8 +77,10 @@
     }
   };
 
-  console.log(board.rows);
+  board.display();
+  // console.log(board.rows);
   board.place_piece([0,1], "black");
-  console.log(board.rows);
+  // console.log(board.rows);
+  board.display();
 })(this);
 
